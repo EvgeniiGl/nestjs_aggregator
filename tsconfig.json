@@ -9,8 +9,12 @@
     "target": "ES2019",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@modules/*": ["modules/*"],
+    }
   }
 }

@@ -8,12 +8,31 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
       AppModule,
   );
+  // app.setGlobalPrefix('api')
+  // app.use(
+  //     session({
+  //       secret: 'hotelSecret',
+  //       resave: false,
+  //       saveUninitialized: false
+  //     })
+  // )
   // app.useGlobalInterceptors(new ExceptionInterceptor())
-  app.useGlobalPipes(new ValidationPipe())
+  // const reflector = app.get(Reflector)
+  // eGlobalGuards(new AuthenticatedGuard(reflector))
+  // app.useGlobalGuards(new RolesGuard(reflector))
+  //
+  // app.use(passport.initialize())
+  // app.use(passport.session())
+  // app.useGlobalPipes(new ValidationPipe())
   // app.useStaticAssets(join(__dirname, '..', 'public'));
   // app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
+  // app.setViewEngine('hbs');
   await app.listen(3000);
+
+
+
+
+
 }
 
 bootstrap();
