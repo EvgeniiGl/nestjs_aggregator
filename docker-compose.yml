@@ -4,7 +4,7 @@ services:
   web:
     build: ./docker
     ports:
-      - "3000:3000"
+      - "3001:3000"
     env_file:
       - .env
     volumes:
@@ -13,18 +13,18 @@ services:
 
   mongo-db:
     image: mongo:latest
-    container_name: mongo
+    container_name: mongo_aggregator
     env_file:
       - .env
     ports:
-      - "27015:27017"
+      - "27014:27017"
     volumes:
       - ./data:/data/db
 
   mongo-express:
     image: mongo-express
     ports:
-      - "8081:8081"
+      - "8082:8081"
     env_file:
       - .env
     links:
