@@ -9,7 +9,9 @@ import {AuthenticatedGuard} from '@modules/base/guards/authenticated.guard'
 import {RolesGuard} from '@modules/base/guards/roles.guard'
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule)
+    const app = await NestFactory.create<NestExpressApplication>(
+        AppModule,
+    );
     app.setGlobalPrefix('api')
     app.use(
         session({
@@ -26,6 +28,10 @@ async function bootstrap() {
     app.use(passport.initialize())
     app.use(passport.session())
 
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setViewEngine('hbs');
+    app.useGlobalPipes(new ValidationPipe());
     await app.listen(3000)
 }
 

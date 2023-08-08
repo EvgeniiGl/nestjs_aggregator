@@ -1,15 +1,17 @@
 import {Controller, Get, Post, Body, Param, Delete, UseFilters, Query} from '@nestjs/common'
 import {Types} from 'mongoose'
-import {Roles} from '@modules/base/decorators/roles.decorator'
+import {Role} from '@modules/base/decorators/role.decorator'
 import {ReservationDto, ReservationSearchOptions} from './interfaces/reservation.interface'
 import {ReservationsService} from './reservations.service'
 import {Reservation} from './models/reservation.model'
-import {HotelRoomsService} from '../hotels/hotels.service'
 import {HttpException} from '@nestjs/common'
 import {ValidationExceptionFilter} from "@modules/base/exceptions/validation.exception.filter";
 import {User} from "@modules/base/decorators/user.decorator";
+import {HotelRoomsService} from "@modules/hotels/hotel-rooms.service";
+import {ParseObjectIdPipe} from "@modules/base/validations/parse-object-id-pipe";
+import {Roles} from "@modules/users/models/user.model";
 
-@Controller('client')
+@Controller(Roles.CLIENT)
 export class ReservationsController {
     constructor(
         private readonly reservationsService: ReservationsService,
@@ -17,7 +19,7 @@ export class ReservationsController {
     ) {
     }
 
-    @Roles('client')
+    @Role(Roles.CLIENT)
     @UseFilters(ValidationExceptionFilter)
     @Post('reservations')
     async addReservation(@Body() data: ReservationDto, @User() user) {
@@ -26,9 +28,7 @@ export class ReservationsController {
         if (!room) {
             throw new HttpException('Номер не найден', 400)
         }
-console.log('log--','\n',
-'user--',user,'\n',
-)
+
         const reservationData = {...data, user: user._id, hotel: room.hotel._id}
         const reservation = await this.reservationsService.addReservation(reservationData)
         if (!reservation) {
@@ -43,15 +43,16 @@ console.log('log--','\n',
         }
     }
 
-    @Roles('client')
+    @Role(Roles.CLIENT)
     @Get('reservations')
-    getReservations(@Query() filter: ReservationSearchOptions): Promise<Reservation[]> {
+    getReservations(@Query() filter: ReservationSearchOptions, @User() user): Promise<Reservation[]> {
+        filter.user = user._id
         return this.reservationsService.getReservations(filter)
     }
 
-    @Roles('client')
+    @Role(Roles.CLIENT)
     @Delete('reservations/:id')
-    removeReservation(@Param('id') id: Types.ObjectId, @User() user) {
+    removeReservation(@Param('id', ParseObjectIdPipe) id: Types.ObjectId, @User() user) {
         return this.reservationsService.removeReservation(id, user)
     }
 }

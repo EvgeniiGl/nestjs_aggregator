@@ -25,7 +25,7 @@ const filesInterceptorSetup = {
   },
   fileFilter: (req, file, callback) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-      return callback(new Error('Only image files are allowed!'), false);
+      return callback(new Error('Разрешены только файлы изображений!'), false);
     }
     callback(null, true);
   },

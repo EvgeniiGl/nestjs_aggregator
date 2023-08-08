@@ -28,8 +28,12 @@ export class UsersService implements IUserService {
 
   async findAll(params: SearchUserParams): Promise<UserDocument[]> {
     const { limit, offset = 0, ...rest } = params
-    const users = this.UserModel.find(rest, { password: 0, __v: 0 }).skip(offset)
-    if (limit) users.limit(limit)
+    const users = this.UserModel
+        .find(rest, {password: 0, __v: 0})
+        .skip(offset)
+    if (limit) {
+      users.limit(limit)
+    }
 
     return await users.exec()
   }

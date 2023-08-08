@@ -1,8 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
-import {IsEmail, MinLength} from "class-validator";
+import {IsEmail, IsEnum, MinLength} from "class-validator";
 
 export type UserDocument = User & Document
+
+export enum Roles {
+  CLIENT = "client",
+  ADMIN = "admin",
+  MANAGER = "manager",
+}
 
 @Schema()
 export class User {
@@ -20,7 +26,8 @@ export class User {
   @Prop({})
   contactPhone: string
 
-  @Prop({ ofString: ['client', 'admin', 'manager'], default: 'client' })
+  @IsEnum(Roles, {each: true})
+  @Prop({ofString: Roles, default: Roles.CLIENT})
   role: string
 }
 

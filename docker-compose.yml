@@ -29,6 +29,5 @@ services:
       - .env
     links:
       - mongo-db
-    restart: always
     depends_on:
       - mongo-db

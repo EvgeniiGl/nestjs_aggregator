@@ -1,20 +1,21 @@
 import {Types} from 'mongoose'
 import {Reservation} from '../models/reservation.model'
-import {IsDefined} from "class-validator";
+import {IsDefined, IsMongoId} from "class-validator";
 
 export class ReservationDto {
-    @IsDefined()
     user: Types.ObjectId
-    @IsDefined()
     hotel: Types.ObjectId
     @IsDefined()
+    @IsMongoId()
     room: Types.ObjectId
+    @IsDefined()
     dateStart: Date
+    @IsDefined()
     dateEnd: Date
 }
 
 export interface ReservationSearchOptions {
-    userId: Types.ObjectId
+    user: Types.ObjectId
     dateStart: Date
     dateEnd: Date
 }

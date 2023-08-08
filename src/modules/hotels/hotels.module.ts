@@ -1,11 +1,12 @@
 import {Module} from '@nestjs/common'
-import {HotelRoomsService, HotelsService} from './hotels.service'
 import {AdminHotelsController} from './admin-hotels.controller'
 import {MongooseModule} from '@nestjs/mongoose'
 import {Hotel, HotelSchema} from './models/hotel.model'
 import {HotelRoom, HotelRoomModel} from './models/hotel-room.model'
 import {HotelRoomsController} from "@modules/hotels/hotel-rooms.controller";
 import {MulterModule} from "@nestjs/platform-express";
+import {HotelsService} from "@modules/hotels/hotels.service";
+import {HotelRoomsService} from "@modules/hotels/hotel-rooms.service";
 
 @Module({
     imports: [
